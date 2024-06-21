@@ -29,7 +29,7 @@ app.use((error, req, res, next)=>{
         return next(error);
     }
     else{
-        res.status(err.code || 500).json({
+        res.status(error.code || 500).json({
             message : error.message || "An unknown error occured"
         })
     }

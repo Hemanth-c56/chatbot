@@ -17,10 +17,12 @@ router.post('/zengpt/login',
     ]
     ,login);
 
-router.delete('/zengpt/delete-account/:id', deleteUser);
+router.delete('/zengpt/delete/account/:id', deleteUser);
 
 router.get('/zengpt/:id', GetHistoryById);
 
 router.put('/zengpt/:id', UpdateHistoryById)
+
+// router.put('/zengpt/delete/history/:id', deleteHistoryById)
 
 export default router

@@ -27,6 +27,8 @@ const signup = async(req,res,next)=>{
         res.status(201).json({
             message: "success",
             userId : newUser._id,
+            userName : newUser.name,
+            userEmail : newUser.email
         })
 
     }
@@ -48,7 +50,7 @@ const login = async(req,res,next)=>{
 
         const existingUser = await User.findOne({email: email});
         if(!existingUser){
-            return next(new HttpError("Account doesn't exist", 401));
+            return next(new HttpError("Account doesn't exist", 400));
         }
 
         if(existingUser.password !== password){
@@ -57,7 +59,9 @@ const login = async(req,res,next)=>{
 
         res.status(201).json({
             message : "login successfull",
-            userId : existingUser._id
+            userId : existingUser._id,
+            userName : existingUser.name,
+            userEmail : existingUser.email
         });
     }
     catch(err){
@@ -90,13 +94,23 @@ const UpdateHistoryById = async(req,res,next)=>{
         await User.findByIdAndUpdate(id, {$push : {history: data}}, {new : true})
 
         res.status(201).json({
-            message : "updation successfull"
+            message : "updation successfull",
         })
     }
     catch(err){
         return next(new HttpError("updating history failed", 400));
     }
 }
+
+// const deleteHistoryById = async(req,res,next)=>{
+//     try{
+//         const {id} = req.params;
+//         await User.findByIdAndUpdate(id, { history: [] }, { new: true });
+//     }
+//     catch(err){
+//         return next(new HttpError("deleting history failed", 422))
+//     }
+// }
 
 const deleteUser = async(req,res,next)=>{
     try{
